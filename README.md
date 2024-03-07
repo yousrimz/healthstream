@@ -35,8 +35,7 @@ This project is a real-time data streaming pipeline for healthcare data, using A
 3. Configure AWS credentials by creating a ***config.json*** file in the utils folder with the following structure:
 
     ```json
-    {"aws_access_key_id": "your-aws-access-key-id",
-  "aws_secret_access_key": "your-aws-secret-access-key"}
+    {"aws_access_key_id": "aws-access-key-id","aws_secret_access_key":"aws-secret-access-key"}
     ```
 
 4. Start the Kafka server and create the **arhvdata** topic:

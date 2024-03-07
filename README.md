@@ -35,14 +35,12 @@ This project is a real-time data streaming pipeline for healthcare data, using A
 3. Configure AWS credentials by creating a ***config.json*** file in the utils folder with the following structure:
 
     ```json
-    {
-  "aws_access_key_id": "your-aws-access-key-id",
-  "aws_secret_access_key": "your-aws-secret-access-key"
-    }
-    
+    {"aws_access_key_id": "your-aws-access-key-id",
+  "aws_secret_access_key": "your-aws-secret-access-key"}
     ```
 
 4. Start the Kafka server and create the **arhvdata** topic:
+
     ```bash
     kafka-server-start.sh /path/to/kafka/config/server.properties
     ```
@@ -53,12 +51,14 @@ This project is a real-time data streaming pipeline for healthcare data, using A
 ## Usage
 
 1. Start the data producer:
+
     ```bash
     python producer.py
     ```
     This action will generate mock patient data and publish it to the Kafka topic ***arhvdata***.
 
 2. In a separate terminal, start the data consumer (Spark Structured Streaming):
+
     ```bash
     python storage.py
     ```

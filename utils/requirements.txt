@@ -1,0 +1,6 @@
+Java: Version 17.0.10
+Python: Version 3.11.7
+Scala: Version 2.12.18
+Spark: Version 3.5.0
+Kafka: Version 3.6.1
+kafka-python: Version 2.0.2

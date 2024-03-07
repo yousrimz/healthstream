@@ -39,6 +39,7 @@ This project is a real-time data streaming pipeline for healthcare data, using A
   "aws_access_key_id": "your-aws-access-key-id",
   "aws_secret_access_key": "your-aws-secret-access-key"
     }
+    
     ```
 
 4. Start the Kafka server and create the **arhvdata** topic:

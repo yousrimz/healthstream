@@ -32,7 +32,7 @@ This project is a real-time data streaming pipeline for healthcare data, using A
     pip install kafka-python pyspark faker
     ```
 
-3. Configure AWS credentials by creating a ***config.json*** file in the utils folder with the following structure:
+3. Configure AWS credentials by creating a **config.json** file in the utils folder with the following structure:
 
     ```json
     {"aws_access_key_id": "aws-access-key-id","aws_secret_access_key":"aws-secret-access-key"}

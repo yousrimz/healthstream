@@ -1,17 +1,12 @@
-import os
-import sys
-import json
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
-from conf import SPARK_JARS_PACKAGES, SPARK_JARS
+import json
+import os
 
-
-PYTHON_PATH = os.environ.get("PYSPARK_PYTHON", r"C:\Users\yousr\python.exe")
-JARS_DIR = os.environ.get("SPARK_JARS_DIR", r"C:\spark\jars")
+os.environ["PYSPARK_PYTHON"] = r"C:\\Users\\yousr\\python.exe"
 
 # config for AWS
-
 try:
     with open('utils\config.json') as config_file:
         cfg = json.load(config_file)
@@ -28,8 +23,11 @@ except KeyError as e:
 # init spark session
 try:
     spark = SparkSession.builder \
-        .config("spark.jars.packages", ",".join(SPARK_JARS_PACKAGES)) \
-        .config("spark.jars", ",".join([os.path.join(JARS_DIR, jar) for jar in SPARK_JARS])) \
+        .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.0") \
+        .config("spark.jars", r"C:\spark\jars\aws-java-sdk-core-1.12.663.jar") \
+        .config("spark.jars", r"C:\spark\jars\hadoop-aws-3.2.2.jar") \
+        .config("spark.jars", r"C:\spark\jars\aws-java-sdk-bundle-1.12.652.jar") \
+        .config("spark.jars", r"C:\spark\jars\aws-java-sdk-s3-1.11.563.jar") \
         .config('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider') \
         .appName("HealthData") \
         .config("spark.network.timeout", "5000s") \
@@ -41,7 +39,6 @@ except Exception as e:
     print(f"error when init spark session: {e}")
     sys.exit(1)
 
-
 # reading kafka stream
 try:
     df = spark.readStream.format("kafka") \
@@ -51,7 +48,6 @@ try:
 except Exception as e:
     print(f"error when reading kafka stream: {e}")
     sys.exit(1)
-
 
 # def data schema
 schema = StructType([
@@ -63,6 +59,7 @@ schema = StructType([
     StructField("timestamp", StringType(), True)
 ])
 
+
 try:
     # select key/value columns
     df = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
@@ -72,7 +69,7 @@ try:
         .outputMode("append") \
         .format("parquet") \
         .option("path", "s3a://datareco/parquets/") \
-        .option("checkpointLocation", "C:\\Users\\yousr\\Documents\\healthstream\\checkpoint") \
+        .option("checkpointLocation", "C:\\Users\\yousr\\Documents\\healthstream\\checkp") \
         .trigger(processingTime="40 seconds") \
         .option("maxRecordsPerFile", 30) \
         .start()
